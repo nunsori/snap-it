@@ -1,6 +1,7 @@
 package com.snapit.backend.snapit_server.dto;
 
 import com.snapit.backend.snapit_server.domain.Room;
+import com.snapit.backend.snapit_server.domain.enums.GameType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public record RoomDto(
         String title,
         int currentCapacity,
         int maxCapacity,
-        String gameType,
+        GameType gameType,
         List<String> userList
 ) {
     public static RoomDto from(Room room) {
@@ -20,7 +21,7 @@ public record RoomDto(
                 room.getTitle(),
                 room.getCurrentCapacity(),
                 room.getMaxCapacity(),
-                room.getGameType().name(),
+                room.getGameType(),
                 room.getUserList()
         );
     }

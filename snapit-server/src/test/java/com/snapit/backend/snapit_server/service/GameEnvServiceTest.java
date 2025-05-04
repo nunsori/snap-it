@@ -1,5 +1,6 @@
 package com.snapit.backend.snapit_server.service;
 
+import com.snapit.backend.snapit_server.domain.enums.GameType;
 import com.snapit.backend.snapit_server.dto.game.RoundStartMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,7 +43,7 @@ class GameEnvServiceTest {
 
         // then
         RoundStartMessage expectedMessage =
-                new RoundStartMessage(new RoundStartMessage.Body(roundNumber, mockPlaceList));
+                new RoundStartMessage(new RoundStartMessage.Body(roundNumber, mockPlaceList, GameType.PERSONAL));
 
         verify(messagingTemplate).convertAndSend(
                 "/topic/room/" + roomUUID,

@@ -45,7 +45,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // WebSocket 연결 엔드포인트 등록
         registry.addEndpoint("/ws")
                 .addInterceptors(jwtHandshakeInterceptor) // 여기 추가
-                .setAllowedOrigins("*"); // SockJS 지원 추가
+                .setAllowedOriginPatterns("*")
+                .withSockJS();  // SockJS 지원 추가
     }
 
     @Override

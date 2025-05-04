@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -64,7 +65,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        // ✅ 프론트로 리다이렉트 (쿼리파라미터 없음)
-        response.sendRedirect("http://localhost:3000/");
+        // ✅ 프론트로 리다이렉트 (쿼리파라미터로 토큰 추가)
+        response.sendRedirect("http://localhost:5173/auth-success?accessToken=" + jwt);
+
+//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//        response.setCharacterEncoding("UTF-8");
+//        response.setStatus(HttpServletResponse.SC_OK);
+//        String responseBody = "{\"accessToken\":\"" + jwt +
+//                "\",\"userId\":\"" + email + "\"}";
+//        response.getWriter().write(responseBody);
     }
 }

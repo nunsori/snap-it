@@ -55,7 +55,7 @@ public class JwtProvider {
                 .getSubject();
 
         // 더미 권한(ROLE_USER) 한 개를 부여합니다.
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER_TEST");
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         return new UsernamePasswordAuthenticationToken(
                 email,                    // principal 대신 이메일
                 token,                    // credentials에 토큰 전달

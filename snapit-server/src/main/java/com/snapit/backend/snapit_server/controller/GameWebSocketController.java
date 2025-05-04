@@ -1,5 +1,6 @@
 package com.snapit.backend.snapit_server.controller;
 
+import com.snapit.backend.snapit_server.domain.enums.GameType;
 import com.snapit.backend.snapit_server.dto.game.GameScoreInfoMessage;
 import com.snapit.backend.snapit_server.dto.game.ScoreMessage;
 import com.snapit.backend.snapit_server.dto.game.TimeOverMessage;
@@ -37,7 +38,7 @@ public class GameWebSocketController {
     public void vote(@DestinationVariable UUID roomUUID,
                      @Payload VoteMessage voteMessage) {
 
-        gameEnvService.voteWithUUID(roomUUID, voteMessage.place(), voteMessage.round());
+        gameEnvService.voteWithUUID(roomUUID, voteMessage);
 
     }
 
@@ -46,8 +47,12 @@ public class GameWebSocketController {
     public void score(@DestinationVariable UUID roomUUID,
                       @Payload ScoreMessage scoreMessage,
                       Principal principal) {
+        if (GameType.PERSONAL.equals(scoreMessage.gameType())) {
+            gamePlayService.addScore(roomUUID, principal.getName(), scoreMessage);
+        } else if (GameType.COOPERATE.equals(scoreMessage.gameType())) {
+            gamePlayService.addCount(roomUUID,scoreMessage);
+        }
 
-        gamePlayService.addScore(roomUUID, principal.getName(), scoreMessage);
     }
 
     // 시간 경과 완료
@@ -56,7 +61,7 @@ public class GameWebSocketController {
                     @Payload TimeOverMessage timeOverMessage,
                     Principal principal) {
 
-        gamePlayService.timeOver(roomUUID, principal.getName(), timeOverMessage.round());
+        gamePlayService.timeOver(roomUUID, principal.getName(), timeOverMessage);
 
     }
 
