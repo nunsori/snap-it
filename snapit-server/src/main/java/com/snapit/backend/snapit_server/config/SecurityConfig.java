@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/oauth2/**", "/ws/info/**").permitAll() // '/ws/info/**' 추가
+                        .requestMatchers("/api/token/refresh").permitAll() // Refresh 엔드포인트 허용
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/ws/**").permitAll() // OPTIONS 요청 허용
                         .anyRequest().authenticated()
                 )

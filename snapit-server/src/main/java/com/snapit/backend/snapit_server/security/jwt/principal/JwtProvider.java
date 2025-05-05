@@ -17,7 +17,9 @@ import java.util.Date;
 public class JwtProvider {
 
     private final SecretKey secretKey ;
-    private final long expirationTime = 1000L * 60 * 60; // 1시간
+    private final long expirationTime = 1000L * 60 * 1; // 1시간.
+    private final long refreshExpirationTime = 1000L * 60 * 60 * 24 * 7;
+
 
     // UserDetailsService 제거
     public JwtProvider(@Value("${secret.key}")String secret) {
@@ -34,6 +36,23 @@ public class JwtProvider {
                 .compact();
     }
 
+    public String getEmailFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public String createRefreshToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationTime))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()

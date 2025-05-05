@@ -1,6 +1,7 @@
 package com.snapit.backend.snapit_server.security.oauth2.handler;
 
 import com.snapit.backend.snapit_server.security.jwt.principal.JwtProvider;
+import com.snapit.backend.snapit_server.security.jwt.principal.TokenRepository;
 import com.snapit.backend.snapit_server.security.oauth2.OAuth2UserService;
 import com.snapit.backend.snapit_server.security.oauth2.userinfo.OAuth2UserInfo;
 import com.snapit.backend.snapit_server.security.oauth2.userinfo.factory.OAuth2UserInfoFactory;
@@ -19,21 +20,25 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
     private final OAuth2UserService oauth2UserService;
-
+    private final TokenRepository tokenRepository;
 
     //    public OAuth2SuccessHandler(JwtProvider jwtProvider, UserRepository userRepository) {
     //        this.jwtProvider = jwtProvider;
     //        this.userRepository = userRepository;
     //    }
-    public OAuth2SuccessHandler(JwtProvider jwtProvider, OAuth2UserService oauth2UserService) {
+    public OAuth2SuccessHandler(JwtProvider jwtProvider, OAuth2UserService oauth2UserService, TokenRepository tokenRepository) {
         this.jwtProvider = jwtProvider;
         this.oauth2UserService = oauth2UserService;
+        this.tokenRepository = tokenRepository;
     }
 
 
@@ -55,24 +60,75 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         String jwt = jwtProvider.createToken(email);
 
-        // ✅ JWT를 쿠키로 설정
-        ResponseCookie cookie = ResponseCookie.from("accessToken", jwt)
-                .httpOnly(true) // HTTPS 환경에서만 전송
+        // Access Token 생성
+        String accessToken = jwtProvider.createToken(email);
+
+        // Refresh Token 생성
+        String refreshToken = jwtProvider.createRefreshToken(email);
+
+        // Refresh Token 저장
+        tokenRepository.saveRefreshToken(email, refreshToken);
+
+        // Access Token은 쿠키로 설정
+        ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
+                .httpOnly(true)
                 .path("/")
                 .maxAge(60 * 60) // 1시간
                 .sameSite("Strict")
                 .build();
 
-        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        // Refresh Token도 쿠키로 설정
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .path("/api/token/refresh") // Refresh 엔드포인트에서만 사용 가능
+                .maxAge(60 * 60 * 24 * 7) // 7일
+                .sameSite("Strict")
+                .build();
+        // [쿠키] 이메일도 넣게끔 설정
+        ResponseCookie emailCookie = ResponseCookie.from("email", email)
+                .httpOnly(false) // JS에서 접근 가능하게 하려면 false
+                .secure(true)
+                .path("/")
+                .maxAge(Duration.ofDays(14))
+                .build();
+        // [쿠키] 응답에 담기
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, emailCookie.toString());
 
-        // ✅ 프론트로 리다이렉트 (쿼리파라미터로 토큰 추가)
-        response.sendRedirect("http://localhost:5173/auth-success?accessToken=" + jwt);
+        // 응답 바디 구성
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
 
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//        response.setCharacterEncoding("UTF-8");
-//        response.setStatus(HttpServletResponse.SC_OK);
-//        String responseBody = "{\"accessToken\":\"" + jwt +
-//                "\",\"userId\":\"" + email + "\"}";
+        String responseBody = "{\"accessToken\":\"" + accessToken +
+                "\",\"refreshToken\":\"" + refreshToken +
+                "\",\"userId\":\"" + email + "\"}";
+        // GET요청 반환값으로 지정
 //        response.getWriter().write(responseBody);
+//        response.sendRedirect("http://localhost:5173");
+
+
+        // ✅ 프론트로 리다이렉트 (쿼리파라미터로 email 추가)
+        response.sendRedirect("http://localhost:5173/auth-success?email=" + email);
+
+        // 리다이렉트 URI 확인 (Unity 클라이언트용)
+//        String redirectUri = request.getParameter("redirect_uri");
+//
+//        if (redirectUri != null && redirectUri.contains("localhost")) {
+//            // Unity 클라이언트로 리다이렉트 (쿼리 파라미터로 이메일과 토큰 추가)
+//            String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8.toString());
+//            String encodedToken = URLEncoder.encode(jwt, StandardCharsets.UTF_8.toString());
+//
+//            response.sendRedirect(redirectUri + "?email=" + encodedEmail + "&token=" + encodedToken);
+//        } else {
+//            // 일반 웹 클라이언트 응답
+//            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//            response.setCharacterEncoding("UTF-8");
+//            response.setStatus(HttpServletResponse.SC_OK);
+//            String responseBody = "{\"accessToken\":\"" + jwt +
+//                    "\",\"userId\":\"" + email + "\"}";
+//            response.getWriter().write(responseBody);
+//        }
     }
 }
