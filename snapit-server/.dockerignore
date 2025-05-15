@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Mac OS
+.DS_Store
+
+# 로그 파일
+*.log
+
+# 환경 설정 파일(필요에 따라 조정)
+.env
+
+# 테스트 디렉토리
+src/test/ 

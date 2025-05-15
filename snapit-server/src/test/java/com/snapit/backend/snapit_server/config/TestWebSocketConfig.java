@@ -89,6 +89,9 @@ public class TestWebSocketConfig implements WebSocketMessageBrokerConfigurer {
             public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                            WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
                 
+                // 항상 WWW-Authenticate 헤더 추가 (401 에러 방지용)
+                response.getHeaders().add(HttpHeaders.WWW_AUTHENTICATE, "Bearer realm=\"snapit\"");
+                
                 // 테스트 환경에서는 모든 연결을 허용합니다.
                 Authentication auth = new UsernamePasswordAuthenticationToken(
                         "test@example.com",
@@ -104,9 +107,6 @@ public class TestWebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 // 세션 속성에 인증 정보 저장
                 attributes.put("SPRING.AUTH", auth);
                 attributes.put("userId", auth.getName());
-                
-                // 401 오류 발생 시 WWW-Authenticate 헤더 추가
-                response.getHeaders().add(HttpHeaders.WWW_AUTHENTICATE, "Bearer realm=\"snapit\"");
                 
                 return true;
             }

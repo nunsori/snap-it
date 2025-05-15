@@ -17,6 +17,11 @@ spring:
 secret:
   key: test-secret-key-for-unit-tests-and-integration-tests
 
+# Gemini API 키 설정
+gemini:
+  api:
+    key: "TEST_GEMINI_API_KEY"
+
 # 웹소켓 관련 로깅 설정
 logging:
   level:

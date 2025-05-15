@@ -20,6 +20,11 @@ public class TestJwtAuthenticationFilter extends OncePerRequestFilter {
         
         String authHeader = request.getHeader("Authorization");
         
+        // 항상 WWW-Authenticate 헤더를 추가
+        if (!response.containsHeader("WWW-Authenticate")) {
+            response.setHeader("WWW-Authenticate", "Bearer realm=\"snapit\"");
+        }
+        
         // 테스트에서는 웹소켓 엔드포인트로의 요청을 항상 인증된 것으로 처리
         if (request.getRequestURI().contains("/ws") || 
             (authHeader != null && !authHeader.isEmpty())) {
@@ -33,11 +38,6 @@ public class TestJwtAuthenticationFilter extends OncePerRequestFilter {
             
             // SecurityContext에 인증 정보 설정
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            
-            // 웹소켓 오류 방지를 위해 WWW-Authenticate 헤더 추가
-            if (request.getRequestURI().contains("/ws") && !response.containsHeader("WWW-Authenticate")) {
-                response.setHeader("WWW-Authenticate", "Bearer realm=\"snapit\"");
-            }
         }
         
         filterChain.doFilter(request, response);

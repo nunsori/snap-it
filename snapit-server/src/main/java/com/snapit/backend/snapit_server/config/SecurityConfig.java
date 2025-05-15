@@ -42,8 +42,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS 설정 추가
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/oauth2/**", "/ws/info/**").permitAll() // '/ws/info/**' 추가
-                        .requestMatchers("/api/token/refresh").permitAll() // Refresh 엔드포인트 허용
+                        .requestMatchers("/login", "/oauth2/**", "/ws/info/**", "/api/token/refresh",
+                                "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()//허용하는 경로
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/ws/**").permitAll() // OPTIONS 요청 허용
                         .anyRequest().authenticated()
                 )

@@ -22,13 +22,11 @@ import java.util.UUID;
 @Controller
 public class GameWebSocketController {
 
-    private final SimpMessagingTemplate messagingTemplate;
     private final GameEnvService gameEnvService;
     private final GamePlayService gamePlayService;
 
     @Autowired
-    public GameWebSocketController(SimpMessagingTemplate messagingTemplate, GameEnvService gameEnvService, GamePlayService gamePlayService) {
-        this.messagingTemplate = messagingTemplate;
+    public GameWebSocketController(GameEnvService gameEnvService, GamePlayService gamePlayService) {
         this.gameEnvService = gameEnvService;
         this.gamePlayService = gamePlayService;
     }

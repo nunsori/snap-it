@@ -22,6 +22,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.context.annotation.Import;
 import com.snapit.backend.snapit_server.config.TestSecurityConfig;
+import com.snapit.backend.snapit_server.config.TestGeminiConfig;
 
 import java.security.Principal;
 import java.util.Collections;
@@ -36,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Import({TestSecurityConfig.class})
+@Import({TestSecurityConfig.class, TestGeminiConfig.class})
 @WithMockUser(username = "test@example.com")
 public class GameIntegrationTest {
 

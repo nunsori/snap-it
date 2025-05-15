@@ -4,11 +4,13 @@ import com.snapit.backend.snapit_server.domain.Room;
 import com.snapit.backend.snapit_server.domain.RoomCommand;
 import com.snapit.backend.snapit_server.domain.enums.GameType;
 import com.snapit.backend.snapit_server.domain.enums.JoinResult;
+import com.snapit.backend.snapit_server.dto.JoinMessage;
 import com.snapit.backend.snapit_server.dto.RoomCreateRequestDto;
 import com.snapit.backend.snapit_server.dto.RoomDto;
 import com.snapit.backend.snapit_server.dto.RoomListMessage;
 import com.snapit.backend.snapit_server.service.GameEnvService;
 import com.snapit.backend.snapit_server.service.RoomService;
+import org.hibernate.mapping.Join;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -59,7 +61,7 @@ public class MockRoomControllerTest {
         List<String> userList = new ArrayList<>();
         userList.add("test@example.com");
         List<RoomDto> rooms = Collections.singletonList(
-            new RoomDto(roomId, "Test Room", 1, 4, "PERSONAL", userList)
+            new RoomDto(roomId, "Test Room", 1, 4, GameType.PERSONAL, userList)
         );
         RoomListMessage expectedResponse = RoomListMessage.of(rooms);
         
@@ -84,7 +86,7 @@ public class MockRoomControllerTest {
         List<String> userList = new ArrayList<>();
         userList.add("test@example.com");
         List<RoomDto> rooms = Collections.singletonList(
-            new RoomDto(roomId, "Test Room", 1, 4, "PERSONAL", userList)
+            new RoomDto(roomId, "Test Room", 1, 4, GameType.PERSONAL, userList)
         );
         RoomListMessage expectedResponse = RoomListMessage.of(rooms);
         
@@ -116,7 +118,7 @@ public class MockRoomControllerTest {
         when(roomService.joinRoom(eq(roomId), anyString())).thenReturn(JoinResult.SUCCESS);
         
         // HttpController의 joinRoom 메서드 호출
-        var response = httpController.joinRoom(roomId, authentication);
+        var response = httpController.joinRoom(new JoinMessage(roomId), authentication);
         
         // 반환값 검증
         assertEquals(200, response.getStatusCode().value());

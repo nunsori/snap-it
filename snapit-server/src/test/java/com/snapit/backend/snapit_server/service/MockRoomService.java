@@ -47,13 +47,6 @@ public class MockRoomService {
     }
 
     public void leaveRoom(UUID roomId, String userId) {
-        Room room = rooms.get(roomId);
-        if (room != null) {
-            room.getUserList().remove(userId);
-            room.downCurrentCapacity();
-            if (room.getCurrentCapacity() == 0) {
-                rooms.remove(roomId);
-            }
-        }
+        rooms.remove(roomId);
     }
 } 
