@@ -42,14 +42,14 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/chabin37/snap-it-server:latest
-            ghcr.io/chabin37/snap-it-server:${{ github.sha }}
+            ghcr.io/chabinhwang/snap-it-server:latest
+            ghcr.io/chabinhwang/snap-it-server:${{ github.sha }}
 
       # 6. ArgoCD 매니페스트 업데이트 (이미지 태그 변경)
       - name: Checkout k8s manifests repository
         uses: actions/checkout@v3
         with:
-          repository: chabin37/snap-it-k8s-manifest
+          repository: chabinhwang/snap-it-k8s-manifest
           token: ${{ secrets.MANIFEST_REPO_PAT }}
           path: k8s-manifests
 
