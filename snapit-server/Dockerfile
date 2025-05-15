@@ -20,7 +20,6 @@ COPY src src
 RUN ./gradlew build -x test
 
 # 실행 단계
-FROM --platform=linux/amd64 eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # 환경 변수 설정
