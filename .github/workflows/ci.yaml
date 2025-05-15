@@ -64,6 +64,6 @@ jobs:
           cd k8s-manifests
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add snap-it-manifests/snap-it-chart/values.yaml
+          git add values.yaml
           git commit -m "Update image tag to ${{ github.sha }}"
           git push
