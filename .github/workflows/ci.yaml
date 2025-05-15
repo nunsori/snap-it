@@ -19,7 +19,8 @@ jobs:
 
       # 2. Gradle 테스트 실행 (빌드 전에)
       - name: Test with Gradle
-        run: ./snapit-server/gradlew test
+        working-directory: ./snapit-server
+        run: ./gradlew test
 
       # 3. Docker Buildx 설정
       - name: Set up Docker Buildx
