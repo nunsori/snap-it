@@ -19,7 +19,7 @@ jobs:
 
       # 2. Gradle 테스트 실행 (빌드 전에)
       - name: Test with Gradle
-        run: ./gradlew test
+        run: ./snapit-server/gradlew test
 
       # 3. Docker Buildx 설정
       - name: Set up Docker Buildx
@@ -37,7 +37,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./snapit-server
           push: true
           tags: |
             ghcr.io/chabin37/snap-it-server:latest
