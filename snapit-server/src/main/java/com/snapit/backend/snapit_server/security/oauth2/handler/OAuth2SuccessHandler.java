@@ -110,7 +110,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
 
         // ✅ 프론트로 리다이렉트 (쿼리파라미터로 email 추가)
-        response.sendRedirect("http://localhost:5173/auth-success?email=" + email);
+//        response.sendRedirect("http://localhost:5173/auth-success?email=" + email);
 
         // 리다이렉트 URI 확인 (Unity 클라이언트용)
 //        String redirectUri = request.getParameter("redirect_uri");
