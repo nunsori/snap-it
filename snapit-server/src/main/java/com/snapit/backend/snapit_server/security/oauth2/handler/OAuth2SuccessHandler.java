@@ -71,7 +71,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // Access Token은 쿠키로 설정
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
-                .httpOnly(true)
+                .httpOnly(false)
                 .path("/")
                 .maxAge(60 * 60) // 1시간
                 .sameSite("Strict")
@@ -79,7 +79,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // Refresh Token도 쿠키로 설정
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
-                .httpOnly(true)
+                .httpOnly(false)
                 .path("/api/token/refresh") // Refresh 엔드포인트에서만 사용 가능
                 .maxAge(60 * 60 * 24 * 7) // 7일
                 .sameSite("Strict")
