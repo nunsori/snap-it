@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/oauth2/**", "/ws/info/**", "/api/token/refresh",
-                                "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()//허용하는 경로
+                                "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/favicon.ico").permitAll()//허용하는 경로
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/ws/**").permitAll() // OPTIONS 요청 허용
                         .anyRequest().authenticated()
                 )
