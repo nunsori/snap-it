@@ -42,7 +42,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS 설정 추가
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/oauth2/**").permitAll()
+                        .requestMatchers("/login", "/oauth2/**", "/ws/info/**", "/api/token/refresh",
+                                "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/favicon.ico").permitAll()//허용하는 경로
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/ws/**").permitAll() // OPTIONS 요청 허용
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -61,10 +63,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000"); // ✅ 요청을 허용할 Origin
+        configuration.addAllowedOrigin("http://localhost:5173"); // ✅ 요청을 허용할 Origin
         configuration.addAllowedMethod("*"); // ✅ 모든 HTTP 메서드 허용 (GET, POST, PUT, DELETE 등)
         configuration.addAllowedHeader("*"); // ✅ 모든 헤더 허용
         configuration.setAllowCredentials(true); // ✅ 쿠키 포함 요청 허용 (credentials: include)
+        configuration.setExposedHeaders(java.util.List.of("Authorization")); // Authorization 응답 헤더 노출
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 적용

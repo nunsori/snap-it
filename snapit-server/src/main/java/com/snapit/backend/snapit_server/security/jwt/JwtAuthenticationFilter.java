@@ -31,12 +31,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws ServletException, IOException {
-        String token = resolveToken(req);               // 헤더/쿠키에서 추출
-        if (token != null && jwtProvider.validateToken(token)) {
-            // Spring Security 내부의 인증·인가 흐름을 단일 타입으로 일원화하기 위해
-            // UsernamePasswordAuthenticationToken을 사용
-            Authentication auth = jwtProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        String requestURI = req.getRequestURI();
+        System.out.println("JwtAuthenticationFilter - 요청 URL: " + requestURI);
+        
+        String token = resolveToken(req);
+        if (token != null) {
+            System.out.println("JwtAuthenticationFilter - 토큰 발견, 검증 시작");
+            if (jwtProvider.validateToken(token)) {
+                // Spring Security 내부의 인증·인가 흐름을 단일 타입으로 일원화하기 위해
+                // UsernamePasswordAuthenticationToken을 사용
+                Authentication auth = jwtProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                System.out.println("JwtAuthenticationFilter - 인증 성공: " + auth.getName());
+            } else {
+                System.out.println("JwtAuthenticationFilter - 토큰 검증 실패");
+            }
+        } else {
+            System.out.println("JwtAuthenticationFilter - 토큰 없음");
         }
         chain.doFilter(req, res);
     }
@@ -52,7 +63,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // 2) 헤더의 Bearer 토큰도 함께 처리하려면 아래 로직 유지
+        // 2) URL 쿼리 파라미터에서 토큰 추출 시도
+        String tokenParam = req.getParameter("token");
+        if (tokenParam != null && !tokenParam.isEmpty()) {
+            System.out.println("JwtAuthenticationFilter - 토큰 파라미터 발견: " + tokenParam.substring(0, Math.min(10, tokenParam.length())) + "...");
+            return tokenParam;
+        }
+
+        // 3) 헤더의 Bearer 토큰도 함께 처리하려면 아래 로직 유지
         String bearer = req.getHeader("Authorization");
         if (bearer != null && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);

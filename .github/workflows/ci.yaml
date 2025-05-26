@@ -1,0 +1,69 @@
+name: CI/CD - Build, Push, and Update Manifests
+
+on:
+  push:
+    branches:
+      - server
+  pull_request:
+    branches:
+      - server
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 소스 코드 체크아웃
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      # 2. Gradle 테스트 실행 (빌드 전에)
+      - name: Test with Gradle
+        working-directory: ./snapit-server
+        run: ./gradlew test
+
+      # 3. Docker Buildx 설정
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 4. GitHub Container Registry 로그인
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      # 5. 컨테이너 이미지 빌드 및 푸시
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./snapit-server
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ghcr.io/chabinhwang/snap-it-server:latest
+            ghcr.io/chabinhwang/snap-it-server:${{ github.sha }}
+
+      # 6. ArgoCD 매니페스트 업데이트 (이미지 태그 변경)
+      - name: Checkout k8s manifests repository
+        uses: actions/checkout@v3
+        with:
+          repository: chabinhwang/snap-it-k8s-manifest
+          token: ${{ secrets.MANIFEST_REPO_PAT }}
+          path: k8s-manifests
+
+      # 7. 이미지 태그만 업데이트
+      - name: Update image tag in values.yaml
+        run: |
+          cd k8s-manifests
+          sed -i "s|tag: .*|tag: ${{ github.sha }}|" values.yaml
+
+      - name: Commit and push changes to manifest repo
+        run: |
+          cd k8s-manifests
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add values.yaml
+          git commit -m "Update image tag to ${{ github.sha }}"
+          git push

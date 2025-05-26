@@ -1,5 +1,6 @@
 package com.snapit.backend.snapit_server.controller;
 
+import com.snapit.backend.snapit_server.domain.enums.GameType;
 import com.snapit.backend.snapit_server.dto.game.VoteMessage;
 import com.snapit.backend.snapit_server.service.GameEnvService;
 import org.junit.jupiter.api.Test;
@@ -26,12 +27,12 @@ class GameWebSocketControllerTest {
     void voteRoom_shouldInvokeServiceWithCorrectParameters() {
         // given
         UUID roomUUID = UUID.randomUUID();
-        VoteMessage voteMessage = new VoteMessage("cafeteria", "",1);
+        VoteMessage voteMessage = new VoteMessage("cafeteria", GameType.PERSONAL, 1);
 
         // when
         controller.vote(roomUUID, voteMessage);
 
         // then
-        verify(gameEnvService, times(1)).voteWithUUID(roomUUID, "cafeteria",1);
+        verify(gameEnvService, times(1)).voteWithUUID(roomUUID, voteMessage);
     }
 }

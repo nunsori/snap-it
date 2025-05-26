@@ -1,4 +1,8 @@
 package com.snapit.backend.snapit_server.dto.game;
 
-public record GameStartMessage(String header) {
+import com.snapit.backend.snapit_server.domain.enums.GameType;
+
+public record GameStartMessage(
+        String header,
+        GameType gameType) {
 }
