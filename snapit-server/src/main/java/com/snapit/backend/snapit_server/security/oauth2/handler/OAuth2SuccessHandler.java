@@ -10,6 +10,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -28,16 +30,13 @@ import java.time.Duration;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
-    private final OAuth2UserService oauth2UserService;
     private final TokenRepository tokenRepository;
 
-    //    public OAuth2SuccessHandler(JwtProvider jwtProvider, UserRepository userRepository) {
-    //        this.jwtProvider = jwtProvider;
-    //        this.userRepository = userRepository;
-    //    }
-    public OAuth2SuccessHandler(JwtProvider jwtProvider, OAuth2UserService oauth2UserService, TokenRepository tokenRepository) {
+    @Value("${deployment.address}")
+    private String deploymentAddress;
+
+    public OAuth2SuccessHandler(JwtProvider jwtProvider,  TokenRepository tokenRepository) {
         this.jwtProvider = jwtProvider;
-        this.oauth2UserService = oauth2UserService;
         this.tokenRepository = tokenRepository;
     }
 
@@ -75,6 +74,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .path("/")
                 .maxAge(60 * 60) // 1시간
                 .sameSite("Strict")
+                .domain(deploymentAddress)
                 .build();
 
         // Refresh Token도 쿠키로 설정
@@ -83,6 +83,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .path("/api/token/refresh") // Refresh 엔드포인트에서만 사용 가능
                 .maxAge(60 * 60 * 24 * 7) // 7일
                 .sameSite("Strict")
+                .domain(deploymentAddress)
                 .build();
         // [쿠키] 이메일도 넣게끔 설정
         ResponseCookie emailCookie = ResponseCookie.from("email", email)
@@ -90,6 +91,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .secure(true)
                 .path("/")
                 .maxAge(Duration.ofDays(14))
+                .domain(deploymentAddress)
                 .build();
         // [쿠키] 응답에 담기
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());

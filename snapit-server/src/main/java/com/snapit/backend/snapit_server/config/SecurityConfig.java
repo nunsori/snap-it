@@ -3,6 +3,7 @@ package com.snapit.backend.snapit_server.config;
 import com.snapit.backend.snapit_server.security.jwt.JwtAuthenticationEntryPoint;
 import com.snapit.backend.snapit_server.security.jwt.JwtAuthenticationFilter;
 import com.snapit.backend.snapit_server.security.oauth2.OAuth2UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -24,6 +25,9 @@ public class SecurityConfig {
     private final AuthenticationSuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    
+    @Value("${deployment.address}")
+    private String deploymentAddress;
 
     public SecurityConfig(OAuth2UserService oAuth2UserService,
                           AuthenticationSuccessHandler oAuth2SuccessHandler,
@@ -63,7 +67,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:5173"); // ✅ 요청을 허용할 Origin
+        configuration.addAllowedOrigin("http://localhost:5173"); // ✅ 로컬 개발 환경
+        configuration.addAllowedOrigin(deploymentAddress); // ✅ 배포 환경 주소
         configuration.addAllowedMethod("*"); // ✅ 모든 HTTP 메서드 허용 (GET, POST, PUT, DELETE 등)
         configuration.addAllowedHeader("*"); // ✅ 모든 헤더 허용
         configuration.setAllowCredentials(true); // ✅ 쿠키 포함 요청 허용 (credentials: include)
