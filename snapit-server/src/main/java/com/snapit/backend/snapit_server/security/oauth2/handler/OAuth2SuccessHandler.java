@@ -32,8 +32,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final JwtProvider jwtProvider;
     private final TokenRepository tokenRepository;
 
-    @Value("${deployment.address}")
-    private String deploymentAddress;
+
 
     public OAuth2SuccessHandler(JwtProvider jwtProvider,  TokenRepository tokenRepository) {
         this.jwtProvider = jwtProvider;
@@ -74,7 +73,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .path("/")
                 .maxAge(60 * 60) // 1시간
                 .sameSite("Strict")
-                .domain(deploymentAddress)
                 .build();
 
         // Refresh Token도 쿠키로 설정
@@ -83,7 +81,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .path("/api/token/refresh") // Refresh 엔드포인트에서만 사용 가능
                 .maxAge(60 * 60 * 24 * 7) // 7일
                 .sameSite("Strict")
-                .domain(deploymentAddress)
                 .build();
         // [쿠키] 이메일도 넣게끔 설정
         ResponseCookie emailCookie = ResponseCookie.from("email", email)
@@ -91,7 +88,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .secure(true)
                 .path("/")
                 .maxAge(Duration.ofDays(14))
-                .domain(deploymentAddress)
                 .build();
         // [쿠키] 응답에 담기
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());

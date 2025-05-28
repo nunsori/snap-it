@@ -67,8 +67,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:5173"); // ✅ 로컬 개발 환경
-        configuration.addAllowedOrigin(deploymentAddress); // ✅ 배포 환경 주소
+        configuration.addAllowedOrigin("*"); // ✅ 배포 환경 주소
         configuration.addAllowedMethod("*"); // ✅ 모든 HTTP 메서드 허용 (GET, POST, PUT, DELETE 등)
         configuration.addAllowedHeader("*"); // ✅ 모든 헤더 허용
         configuration.setAllowCredentials(true); // ✅ 쿠키 포함 요청 허용 (credentials: include)
