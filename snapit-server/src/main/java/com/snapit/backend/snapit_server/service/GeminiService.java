@@ -23,10 +23,10 @@ public class GeminiService {
 
         String placeListPrompt = "10~20대가 접근하기 쉬운 공간(현실에 존재하는 공간)을 6개 랜덤하게 선택해서, 아래 예시와 같은 json형식으로 반환해줘." +
                 " 이때, 공간은 단순히 공간명을 의미해. 공간은 특정성(스타벅스, 맥도날드)를 띄지 말고, 추상적으로 표현(카페, 음식점) 해줘. " +
-                "학교, 대학교 안에 존재하는 공간을 2개 이상 포함해줘.\n" +
+                "학교, 대학교 안에 존재하는 공간을 2개 이상 포함해줘.답변은 한글단어-영어단어 쌍인 예시와 같은 형식으로 보내줘.\n" +
                 "예시:\n" +
                 "{\n" +
-                "  \"placeList\": [\"카페\",\"마트\",\"영화관\",\"강의실\",\"거리\",\"도서관\"]\n" +
+                "  \"placeList\": [\"카페-cafe\",\"마트-market\",\"영화관-theater\",\"강의실-classroom\",\"거리-street\",\"도서관-library\"]\n" +
                 "}";
 
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=" + apiKey;
@@ -111,7 +111,7 @@ public class GeminiService {
     public List<String> generateStuffList(String place){
 
         String stuffListPrompt = place +"에 있을법한 물건 10개를 랜덤하게 골라서\n" +
-                "key는 stuffList, value는 물건 이름  String 배열로 JSON형식으로 답해줘";
+                "key는 stuffList, value는 물건 이름 한글-영어를 하나의 String으로  배열로 JSON형식으로 답해줘";
 
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=" + apiKey;
         // 1) 스키마 정의 (stuffList)
