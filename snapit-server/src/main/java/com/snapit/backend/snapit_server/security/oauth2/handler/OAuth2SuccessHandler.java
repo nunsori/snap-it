@@ -85,7 +85,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // [쿠키] 이메일도 넣게끔 설정
         ResponseCookie emailCookie = ResponseCookie.from("email", email)
                 .httpOnly(false) // JS에서 접근 가능하게 하려면 false
-                .secure(true)
                 .path("/")
                 .maxAge(Duration.ofDays(14))
                 .build();
