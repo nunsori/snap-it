@@ -17,8 +17,8 @@ import java.util.Date;
 public class JwtProvider {
 
     private final SecretKey secretKey ;
-    private final long expirationTime = 1000L * 60 * 60; // 1시간.
-    private final long refreshExpirationTime = 1000L * 60 * 60 * 24 * 7;
+    private final long expirationTime = 1000L * 60 * 60 * 24 * 30; // 30일
+    private final long refreshExpirationTime = 1000L * 60 * 60 * 24 * 30; // 30일
 
 
     // UserDetailsService 제거
