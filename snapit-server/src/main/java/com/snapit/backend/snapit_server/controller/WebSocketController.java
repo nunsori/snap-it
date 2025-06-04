@@ -77,8 +77,8 @@ public class WebSocketController {
         return roomService.getAllRooms();
     }
 
-    // 방 입장 API (POST)
-    @MessageMapping("/app/room/{roomUUID}/join")
+    // 방 입장 (MessageMapping)
+    @MessageMapping("/room/{roomUUID}/join")
     @SendTo("/topic/openrooms")
     public RoomListMessage joinRoom(
             @DestinationVariable UUID roomUUID,

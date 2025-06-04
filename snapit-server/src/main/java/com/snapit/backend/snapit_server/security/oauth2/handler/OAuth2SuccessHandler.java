@@ -71,7 +71,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(false)
                 .path("/")
-                .maxAge(60 * 60) // 1시간
+                .maxAge(60 * 60 * 24 * 30) // 30일
                 .sameSite("Strict")
                 .build();
 
@@ -79,14 +79,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(false)
                 .path("/api/token/refresh") // Refresh 엔드포인트에서만 사용 가능
-                .maxAge(60 * 60 * 24 * 7) // 7일
+                .maxAge(60 * 60 * 24 * 30) // 30일
                 .sameSite("Strict")
                 .build();
         // [쿠키] 이메일도 넣게끔 설정
         ResponseCookie emailCookie = ResponseCookie.from("email", email)
                 .httpOnly(false) // JS에서 접근 가능하게 하려면 false
                 .path("/")
-                .maxAge(Duration.ofDays(14))
+                .maxAge(Duration.ofDays(30))
                 .build();
         // [쿠키] 응답에 담기
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
