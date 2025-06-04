@@ -69,7 +69,7 @@ public class RoomService {
             if (room == null) {
                 return null;
             }
-            if (room.getCurrentCapacity() == 1) {
+            if (room.getCurrentCapacity() <= 1) {
                 return null; // 방 삭제
             }
             // 그 외 경우엔 그대로 유지 또는 수정
