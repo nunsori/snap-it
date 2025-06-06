@@ -54,22 +54,23 @@ public class GameEnvService {
 
         System.out.println("roomUUID = " + roomUUID);
         votes.computeIfAbsent(roomUUID, k -> new CopyOnWriteArrayList<>()).add(place);
-        System.out.println("votes.get(roomUUID).size() = " + votes.get(roomUUID).size());
-        System.out.println("roomInfo.get(roomUUID).getCurrentCapacity() = " + roomInfo.get(roomUUID).getCurrentCapacity());
-        System.out.println("gameType = " + gameType);
-        System.out.println("round = " + round);
+        System.out.println("현재 투표 인원 = " + votes.get(roomUUID).size());
+        System.out.println("최대 투표 인원 = " + roomInfo.get(roomUUID).getCurrentCapacity());
+        System.out.println("게임 타입 = " + gameType);
+        System.out.println("라운드 = " + round);
 
         if (GameType.PERSONAL.equals(gameType)) {
 
             if (round == 1 && votes.get(roomUUID).size() == roomInfo.get(roomUUID).getCurrentCapacity()) {
                 System.out.println("[IF문 후]");
                 String mostVoted = calculateVoteResultAndSend(roomUUID, round);
-                System.out.println("mostVoted = " + mostVoted);
+                System.out.println("최다 투표 장소 = " + mostVoted);
                 sendVoteResult(roomUUID, round, mostVoted);
 
-                System.out.println("roomInfo.get(roomUUID).getCurrentCapacity() = " + roomInfo.get(roomUUID).getCurrentCapacity());
-                System.out.println("votes.get(roomUUID).size() = " + votes.get(roomUUID).size());
-                System.out.println("roomInfo.get(roomUUID).getCurrentCapacity() = " + roomInfo.get(roomUUID).getCurrentCapacity());
+                System.out.println("현재 투표 인원 = " + votes.get(roomUUID).size());
+                System.out.println("최대 투표 인원 = " + roomInfo.get(roomUUID).getCurrentCapacity());
+                System.out.println("게임 타입 = " + gameType);
+                System.out.println("라운드 = " + round);
 
             } else if (round == 2) {
                 String mostVoted = calculateVoteResultAndSend(roomUUID, round);
