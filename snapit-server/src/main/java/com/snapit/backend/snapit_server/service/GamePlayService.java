@@ -34,12 +34,14 @@ public class GamePlayService {
 
     // [PERSONAL] UUID 기준으로 gameInfo에서 GameScore를 찾아서 해당 유저 점수를 더함. 없으면 생성 후 더함.
     public void addScore(UUID roomUUID, String email, ScoreMessage scoreMessage) {
+        System.out.println("[점수 획득 실행]-email,roomUUID="+email+","+roomUUID);
         int round = scoreMessage.round();
         int score = scoreMessage.score();
-
+        System.out.println("[점수 획득 실행]-round,score="+round+","+score);
 
         List<GameScore> scores = gameScoreInfo.get(roomUUID);
         if (scores == null) {
+            System.out.println("[점수 획득 실행]-scores가 null이므로 초기화");
             addGameInfo(roomUUID);
             endCount.put(roomUUID, new ArrayList<>());
         }
@@ -50,10 +52,16 @@ public class GamePlayService {
                 .findFirst()
                 .orElse(null);
 
+        System.out.println("[점수 획득 실행]-UUID, gameScore Null 여부 = "+roomUUID+","+gameScore);
+
         if (round == 1) {
+            System.out.println("[점수 획득 실행]-round가 1이므로 점수 업데이트");
             gameScore.setScore(Math.max(score, gameScore.getScore()));
+            System.out.println("[점수 획득 실행]-획득 점수 score, 현재 최고 점수 = "+score+","+gameScore.getScore());
         } else if (round == 2) {
+            System.out.println("[점수 획득 실행]-round가 2이므로 점수 업데이트");
             gameScore.setScore2(Math.max(score, gameScore.getScore2()));
+            System.out.println("[점수 획득 실행]-획득 점수 score, 현재 최고 점수 = "+score+","+gameScore.getScore2());
         }
 
         broadcastGameInfo(roomUUID, round, false, convertGameScoreListToUserInfoList(scores));
@@ -70,16 +78,19 @@ public class GamePlayService {
     public void timeOver(UUID roomUUID, String email, TimeOverMessage timeOverMessage) {
         int round = timeOverMessage.round();
         GameType gameType = timeOverMessage.gameType();
+        System.out.println("[라운드 종료 실행]-round,email,gameType="+round+","+email+","+gameType);
         endCount.get(roomUUID).add(email);
         if (GameType.PERSONAL.equals(gameType)) {
 
             // 1라운드 종료시, 게임결과 발송 후 2번째 게임 투표 발송
             if (round == 1 && endCount.get(roomUUID).size() == gameScoreInfo.get(roomUUID).size()) {
+                System.out.println("[라운드 종료 실행]-종료된 사람, 총 인원 = "+endCount.get(roomUUID).size()+","+gameScoreInfo.get(roomUUID).size());
                 broadcastGameInfo(roomUUID, round, true, convertGameScoreListToUserInfoList(gameScoreInfo.get(roomUUID)));
                 gameEnvService.makePlaceListAndSend(roomUUID, 2);
             }
             // 2라운드 종료시, 게임결과 발송 후 키-벨류 정리
             if (round == 2 && endCount.get(roomUUID).size() == 2 * gameScoreInfo.get(roomUUID).size()) {
+                System.out.println("[라운드 종료 실행]-종료된 사람, 총 인원 = "+endCount.get(roomUUID).size()+","+gameScoreInfo.get(roomUUID).size());
                 broadcastGameInfo(roomUUID, round, true, convertGameScoreListToUserInfoList(gameScoreInfo.get(roomUUID)));
                 gameScoreInfo.remove(roomUUID);
                 endCount.remove(roomUUID);
@@ -89,12 +100,14 @@ public class GamePlayService {
 
             // 1라운드 종료시, 게임결과 발송 후 counts 초기화 후 2번째 게임 투표 발송
             if (round == 1 && endCount.get(roomUUID).size() == gameScoreInfo.get(roomUUID).size()) {
+                System.out.println("[라운드 종료 실행]-종료된 사람, 총 인원 = "+endCount.get(roomUUID).size()+","+gameScoreInfo.get(roomUUID).size());
                 broadcastFoundStuffAndRemain(roomUUID, round, true, "gameEnd");
                 counts.put(roomUUID, 0);
                 gameEnvService.makePlaceListAndSend(roomUUID, 2);
             }
             // 2라운드 종료시, 게임결과 발송 후 키-벨류 정리. counts 초기화
             if (round == 2 && endCount.get(roomUUID).size() == 2 * gameScoreInfo.get(roomUUID).size()) {
+                System.out.println("[라운드 종료 실행]-종료된 사람, 총 인원 = "+endCount.get(roomUUID).size()+","+gameScoreInfo.get(roomUUID).size());
                 broadcastFoundStuffAndRemain(roomUUID, round, true, "gameEnd");
                 counts.remove(roomUUID);
                 gameScoreInfo.remove(roomUUID);
@@ -115,6 +128,7 @@ public class GamePlayService {
     // [PERSONAL] 특정 UUID로 gameScoreInfo broadcast
     private void broadcastGameInfo(UUID roomUUID, int round, boolean isEnd,
                                    List<GameScoreInfoMessage.UserInfo> userInfoList) {
+        System.out.println("[게임 정보 발송 실행]-roomUUID,round,isEnd="+roomUUID+","+round+","+isEnd);
         messagingTemplate.convertAndSend("/topic/room/" + roomUUID, new GameScoreInfoMessage(
                 new GameScoreInfoMessage.Body(round, isEnd, userInfoList)
         ));
@@ -123,6 +137,7 @@ public class GamePlayService {
 
     // [PERSONAL]scors->UserInfos
     private List<GameScoreInfoMessage.UserInfo> convertGameScoreListToUserInfoList(List<GameScore> scores) {
+        System.out.println("[게임 정보 발송 실행]-score에서 UserInfo로 변환");
         return scores.stream()
                 .map(gs -> new GameScoreInfoMessage.UserInfo(
                         gs.getEmail(), gs.getScore(), gs.getScore2()))

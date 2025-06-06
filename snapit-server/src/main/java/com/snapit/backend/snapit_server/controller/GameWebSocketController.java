@@ -35,7 +35,7 @@ public class GameWebSocketController {
     @MessageMapping("/room/{roomUUID}/vote")
     public void vote(@DestinationVariable UUID roomUUID,
                      @Payload VoteMessage voteMessage) {
-
+        System.out.println("[투표 실행]-투표장소,roomUUID="+voteMessage.place()+roomUUID);
         gameEnvService.voteWithUUID(roomUUID, voteMessage);
 
     }
@@ -45,6 +45,7 @@ public class GameWebSocketController {
     public void score(@DestinationVariable UUID roomUUID,
                       @Payload ScoreMessage scoreMessage,
                       Principal principal) {
+        System.out.println("[점수 획득 실행]-email,roomUUID="+principal.getName()+","+roomUUID);
         if (GameType.PERSONAL.equals(scoreMessage.gameType())) {
             gamePlayService.addScore(roomUUID, principal.getName(), scoreMessage);
         } else if (GameType.COOPERATE.equals(scoreMessage.gameType())) {

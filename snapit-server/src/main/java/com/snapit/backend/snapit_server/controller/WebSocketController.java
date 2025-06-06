@@ -6,21 +6,21 @@ import com.snapit.backend.snapit_server.domain.enums.JoinResult;
 import com.snapit.backend.snapit_server.dto.JoinMessage;
 import com.snapit.backend.snapit_server.dto.RoomCreateRequestDto;
 import com.snapit.backend.snapit_server.dto.RoomListMessage;
+import com.snapit.backend.snapit_server.dto.game.SimilarityResponseMessage;
+import com.snapit.backend.snapit_server.dto.game.SimilarityResultMessage;
 import com.snapit.backend.snapit_server.service.GameEnvService;
 import com.snapit.backend.snapit_server.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 import java.util.Map;
@@ -90,4 +90,29 @@ public class WebSocketController {
         return roomService.getAllRooms();
     }
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    @MessageMapping("/room/{roomUUID}/similarity")
+    public void getSimilarity(@DestinationVariable UUID roomUUID,
+                              @Header("first_word") String first_word,
+                              @Header("second_word") String second_word,
+                              Principal principal) {
+        String email = principal.getName();
+        System.out.println("[유사도 계산] 이메일, UUID, first_word, second_word = "
+                + email + ", " + roomUUID + ", " + first_word + ", " + second_word);
+
+        // 1. HTTP GET 요청 보내기
+        String url = "http://localhost:32765/similarity?first_word=" + first_word + "&second_word=" + second_word;
+        SimilarityResponseMessage similarityResult = restTemplate.getForObject(url, SimilarityResponseMessage.class);
+        // 2. WebSocket으로 결과 보내기
+
+        messagingTemplate.convertAndSend("/topic/room/" + roomUUID,
+                new SimilarityResultMessage(
+                        new SimilarityResultMessage.Body(
+                                email,
+                                first_word,
+                                second_word,
+                                similarityResult.similarity()
+                        )));
+    }
 }

@@ -27,14 +27,15 @@ public class RoomService {
     // 방 생성하기
     @Transactional
     public RoomListMessage createRoom(RoomCommand cmd,String email) {
+        System.out.println("[방 생성]이메일, UUID 값 : " + email + ", " + cmd.roomUUID());
         Room room = new Room(
                 cmd.roomUUID(),
                 cmd.title(),
                 cmd.maxCapacity(),
                 cmd.gameType()
         );
-        room.getUserList().add(email); // 방 생성한 유저를 해당 방 멤버로 저장
         rooms.put(cmd.roomUUID(), room);
+        System.out.println("[방 생성]이메일, UUID 값 : " + email + ", " + cmd.roomUUID() + " 방 생성 완료");
 
         return getAllRoomListMessage();
     }
