@@ -43,17 +43,21 @@ public class RoomService {
     @Transactional
     public JoinResult joinRoom(UUID roomUUID, String email) {
         AtomicReference<JoinResult> res = new AtomicReference<>(JoinResult.ROOM_NOT_FOUND);
-
+        System.out.println("[방 진입]이메일, UUID 값 : " + email + ", " + roomUUID);
         rooms.compute(roomUUID, (id, room) -> {
             if (room == null) {// 키가 애초에 없던 경우
+                System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방이 없습니다.");
                 return null;
             }
-            if (room.isFull()) {// 꽉 찬 경우
+            if (room.isFull()) {// 꽉 찬 경우  
+                System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방이 꽉 찼습니다.");
                 res.set(JoinResult.FULL_CAPACITY);
                 return room;
             }
             room.upCurrentCapacity();// 정상 입장
+            System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방 인원 증가. 현재 인원 : " + room.getCurrentCapacity());
             room.getUserList().add(email);
+            System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방 인원 증가. 현재 인원 : " + room.getCurrentCapacity());
             res.set(JoinResult.SUCCESS);
             return room;
         });
