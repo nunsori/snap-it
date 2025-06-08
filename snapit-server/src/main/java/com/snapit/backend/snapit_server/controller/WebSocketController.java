@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Map;
 import java.util.UUID;
@@ -102,7 +104,10 @@ public class WebSocketController {
                 + email + ", " + roomUUID + ", " + first_word + ", " + second_word);
 
         // 1. HTTP GET 요청 보내기
-        String url = "http://localhost:32765/similarity?first_word=" + first_word + "&second_word=" + second_word;
+        String encodedFirst = URLEncoder.encode(first_word, StandardCharsets.UTF_8);
+        String encodedSecond = URLEncoder.encode(second_word, StandardCharsets.UTF_8);
+
+        String url = "http://localhost:32765/similarity?first_word=" + encodedFirst + "&second_word=" + encodedSecond;
         SimilarityResponseMessage similarityResult = restTemplate.getForObject(url, SimilarityResponseMessage.class);
         // 2. WebSocket으로 결과 보내기
 
