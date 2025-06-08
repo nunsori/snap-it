@@ -107,7 +107,7 @@ public class WebSocketController {
         String encodedFirst = URLEncoder.encode(first_word, StandardCharsets.UTF_8);
         String encodedSecond = URLEncoder.encode(second_word, StandardCharsets.UTF_8);
 
-        String url = "http://localhost:32765/similarity?first_word=" + encodedFirst + "&second_word=" + encodedSecond;
+        String url = "http://snap-it-word2vec.snapit-word2voc.svc.cluster.local:8000/similarity?first_word=" + encodedFirst + "&second_word=" + encodedSecond;
         SimilarityResponseMessage similarityResult = restTemplate.getForObject(url, SimilarityResponseMessage.class);
         // 2. WebSocket으로 결과 보내기
 
