@@ -2,7 +2,7 @@ package com.snapit.backend.snapit_server.dto.game;
 
 public record SimilarityResultMessage(
         String header,
-        Body bod
+        Body body
 ) {
     public SimilarityResultMessage(Body body) {
         this("similarity",body);
