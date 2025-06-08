@@ -90,6 +90,12 @@ public class RoomService {
         return rooms.remove(roomUUID);
     }
 
+    // UUID로 Room 찾아서 반환
+    @Transactional
+    public Room getRoom(UUID roomUUID) {
+        return rooms.get(roomUUID);
+    }
+
     private RoomListMessage getAllRoomListMessage() {
         var roomDtos = rooms.values().stream()
                 .map(RoomDto::from)

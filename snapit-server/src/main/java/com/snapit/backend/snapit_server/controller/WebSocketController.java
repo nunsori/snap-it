@@ -6,6 +6,7 @@ import com.snapit.backend.snapit_server.domain.enums.JoinResult;
 import com.snapit.backend.snapit_server.dto.JoinMessage;
 import com.snapit.backend.snapit_server.dto.RoomCreateRequestDto;
 import com.snapit.backend.snapit_server.dto.RoomListMessage;
+import com.snapit.backend.snapit_server.dto.UserListMessage;
 import com.snapit.backend.snapit_server.dto.game.SimilarityResponseMessage;
 import com.snapit.backend.snapit_server.dto.game.SimilarityResultMessage;
 import com.snapit.backend.snapit_server.service.GameEnvService;
@@ -25,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -67,6 +69,13 @@ public class WebSocketController {
     public RoomListMessage leaveRoom(@DestinationVariable UUID roomUUID,
                                      Principal principal) {
         roomService.leaveRoom(roomUUID, principal.getName());
+        Room room = roomService.getRoom(roomUUID);
+        if(room != null) {
+            List<String> userList = room.getUserList();
+            messagingTemplate.convertAndSend(" /topic/room/{roomUUID}",
+                    new UserListMessage(userList));
+
+        }
         return roomService.getAllRooms();
     }
 
@@ -88,7 +97,13 @@ public class WebSocketController {
 
         String email = principal.getName();
         roomService.joinRoom(roomUUID, email);
+        Room room = roomService.getRoom(roomUUID);
+        if(room != null) {
+            List<String> userList = room.getUserList();
+            messagingTemplate.convertAndSend(" /topic/room/{roomUUID}",
+                    new UserListMessage(userList));
 
+        }
         return roomService.getAllRooms();
     }
 
