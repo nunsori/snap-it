@@ -7,6 +7,7 @@ import com.snapit.backend.snapit_server.dto.game.FoundStuffRemainMessage;
 import com.snapit.backend.snapit_server.dto.game.GameScoreInfoMessage;
 import com.snapit.backend.snapit_server.dto.game.ScoreMessage;
 import com.snapit.backend.snapit_server.dto.game.TimeOverMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@RequiredArgsConstructor
 public class GamePlayService {
 
     private final Map<UUID, List<GameScore>> gameScoreInfo = new ConcurrentHashMap<>();
@@ -27,10 +29,6 @@ public class GamePlayService {
     private final SimpMessagingTemplate messagingTemplate;
     private final GameEnvService gameEnvService;
 
-    public GamePlayService(SimpMessagingTemplate messagingTemplate, GameEnvService gameEnvService) {
-        this.messagingTemplate = messagingTemplate;
-        this.gameEnvService = gameEnvService;
-    }
 
     // [PERSONAL] UUID 기준으로 gameInfo에서 GameScore를 찾아서 해당 유저 점수를 더함. 없으면 생성 후 더함.
     public void addScore(UUID roomUUID, String email, ScoreMessage scoreMessage) {

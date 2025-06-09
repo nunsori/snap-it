@@ -3,6 +3,7 @@ package com.snapit.backend.snapit_server.service;
 import com.snapit.backend.snapit_server.domain.Room;
 import com.snapit.backend.snapit_server.domain.enums.GameType;
 import com.snapit.backend.snapit_server.dto.game.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class GameEnvService {
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -22,11 +24,6 @@ public class GameEnvService {
 
     private final Map<UUID, CopyOnWriteArrayList<String>> votes = new ConcurrentHashMap<>();
     private final Map<UUID, Room> roomInfo = new ConcurrentHashMap<>();
-
-    public GameEnvService(SimpMessagingTemplate messagingTemplate, GeminiService geminiService) {
-        this.messagingTemplate = messagingTemplate;
-        this.geminiService = geminiService;
-    }
 
     // 게임 시작
     public void gameInitiate(UUID roomUUID, Room room) {

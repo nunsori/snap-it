@@ -2,18 +2,16 @@ package com.snapit.backend.snapit_server.service;
 
 import com.snapit.backend.snapit_server.security.jwt.principal.JwtProvider;
 import com.snapit.backend.snapit_server.security.jwt.principal.TokenRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TokenService {
 
     private final JwtProvider jwtProvider;
     private final TokenRepository tokenRepository;
 
-    public TokenService(JwtProvider jwtProvider, TokenRepository tokenRepository) {
-        this.jwtProvider = jwtProvider;
-        this.tokenRepository = tokenRepository;
-    }
 
     public TokenRefreshResult refreshToken(String refreshToken) {
         // Refresh Token이 없는 경우
