@@ -44,6 +44,12 @@ public class GamePlayService {
             System.out.println("[점수 획득 실행]-scores가 null이므로 초기화");
             addGameInfo(roomUUID);
             endCount.put(roomUUID, new ArrayList<>());
+            scores = gameScoreInfo.get(roomUUID);
+            System.out.println("[점수 획득 실행]- gameScoreInfo 초기화 후 값 확인 = "+gameScoreInfo.get(roomUUID));
+            for (GameScore gs : scores) {
+                System.out.println("[점수 획득 실행]- gameScoreInfo 초기화 후 값 확인 = "+gs.getEmail()+","+gs.getScore()+","+gs.getScore2());
+            }
+
         }
 
         // UUID가 키로 존재한다면, 모든 유저가 등록되어있음.
