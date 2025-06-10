@@ -100,10 +100,13 @@ public class WebSocketController {
         Room room = roomService.getRoom(roomUUID);
         if(room != null) {
             List<String> userList = room.getUserList();
+            System.out.println("userList 보내기 전"+email);
             messagingTemplate.convertAndSend(" /topic/room/"+roomUUID,
                     new UserListMessage(new UserListMessage.Body(userList)));
 
+            System.out.println("userList 보낸 후"+email);
         }
+        System.out.println("room!=null 뒤 "+email);
         return roomService.getAllRooms();
     }
 
