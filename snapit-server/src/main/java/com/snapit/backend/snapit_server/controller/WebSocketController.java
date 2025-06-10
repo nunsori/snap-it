@@ -73,7 +73,7 @@ public class WebSocketController {
         if(room != null) {
             List<String> userList = room.getUserList();
             messagingTemplate.convertAndSend(" /topic/room/"+roomUUID,
-                    new UserListMessage(userList));
+                    new UserListMessage(new UserListMessage.Body(userList)));
 
         }
         return roomService.getAllRooms();
@@ -101,7 +101,7 @@ public class WebSocketController {
         if(room != null) {
             List<String> userList = room.getUserList();
             messagingTemplate.convertAndSend(" /topic/room/"+roomUUID,
-                    new UserListMessage(userList));
+                    new UserListMessage(new UserListMessage.Body(userList)));
 
         }
         return roomService.getAllRooms();
