@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ddafb1b5d3109d94091570b326f6830d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Samples~/Generic Client/GenericClient.Logic.cs
+  uploadId: 690815

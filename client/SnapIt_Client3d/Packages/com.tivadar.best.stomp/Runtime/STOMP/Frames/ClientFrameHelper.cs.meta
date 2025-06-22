@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 48ac08058a54ccb4d94468169fced25a
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Runtime/STOMP/Frames/ClientFrameHelper.cs
+  uploadId: 690815

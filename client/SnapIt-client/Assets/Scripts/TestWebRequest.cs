@@ -60,7 +60,8 @@ public class TestWebRequest : MonoBehaviour
         VisionRequest request = new VisionRequest();
         request.image = new Image { content = base64Image };
         request.features = new List<Feature>();
-        request.features.Add(new Feature { type = "LABEL_DETECTION", maxResults = 10 });
+        //request.features.Add(new Feature { type = "LABEL_DETECTION", maxResults = 30 });
+        request.features.Add(new Feature { type = "OBJECT_LOCALIZATION", maxResults = 30 });
         visionRequests.requests.Add(request);
 
         string jsonData = JsonUtility.ToJson(visionRequests);
@@ -95,13 +96,13 @@ public class TestWebRequest : MonoBehaviour
                     NormalizedVertex[] vertices = obj.boundingPoly.normalizedVertices;
                     Debug.Log(string.Format("객체: {0}, 신뢰도: {1:P1}", objectName, confidence));
                     // 정규화 좌표 -> 실제 픽셀 좌표 변환 (이미지 크기 이용)
-                    // if (vertices != null && vertices.Length > 0) {
-                    //     for (int i = 0; i < vertices.Length; i++) {
-                    //         float px = vertices[i].x * imgTexture.width;
-                    //         float py = vertices[i].y * imgTexture.height;
-                    //         Debug.Log(string.Format(" - vertex {0}: ({1:F1}, {2:F1}) px", i, px, py));
-                    //     }
-                    // }
+                    if (vertices != null && vertices.Length > 0) {
+                        for (int i = 0; i < vertices.Length; i++) {
+                            float px = vertices[i].x * sample_img.texture.width;
+                            float py = vertices[i].y * sample_img.texture.height;
+                            Debug.Log(string.Format(" - vertex {0}: ({1:F1}, {2:F1}) px", i, px, py));
+                        }
+                    }
                 }
             }
         }

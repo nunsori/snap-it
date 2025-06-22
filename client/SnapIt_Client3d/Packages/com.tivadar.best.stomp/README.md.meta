@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 14f03e51d083abb4891ed8058bab6cdc
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/README.md
+  uploadId: 690815

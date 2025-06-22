@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 6a61e8c5470a0b34999a53f95021e717
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Runtime/STOMP/Error.cs
+  uploadId: 690815

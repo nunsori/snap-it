@@ -1,0 +1,17 @@
+{
+    "name": "com.Tivadar.Best.STOMP",
+    "rootNamespace": "Best.STOMP",
+    "references": [
+        "com.Tivadar.Best.HTTP",
+        "com.Tivadar.Best.WebSockets"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

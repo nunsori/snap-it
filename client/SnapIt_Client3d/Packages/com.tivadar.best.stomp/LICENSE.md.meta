@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b066020c391a035429598d8b2885e07e
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/LICENSE.md
+  uploadId: 690815

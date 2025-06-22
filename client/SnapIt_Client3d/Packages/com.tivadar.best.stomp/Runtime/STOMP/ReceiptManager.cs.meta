@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 470094f0afbd7464ca335062b87f66c8
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Runtime/STOMP/ReceiptManager.cs
+  uploadId: 690815
