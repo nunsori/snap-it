@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,14 +87,24 @@ public class MainUIEvent : MonoBehaviour
 
     public void Init()
     {
+        DOTween.Init();
+
+        LoginPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0);
+
+
         mainCanvas.gameObject.SetActive(true);
+
+        testPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0);
         testPopup.gameObject.SetActive(false);
+
+        apiPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0);
+        apiPopup.gameObject.SetActive(false);
 
 
         LoginPopup.SetActive(false);
         if (GameController.haveToken())
         {
-            userinfotxt.text = "Login needed";
+            userinfotxt.text = "";
         }
 
 
@@ -103,16 +114,27 @@ public class MainUIEvent : MonoBehaviour
         UiUtil.AddButtonClickEvent(singleTestBtn, () => { Testing(); });
         UiUtil.AddButtonClickEvent(BackToTitleBtn, () => { BackToTitle(); });
         UiUtil.AddButtonClickEvent(CreateButton, () => { createRoomOpen(); });
-        UiUtil.AddButtonClickEvent(CreateButtonOn, () => { CreateRoomBtn(); LoginPopup.SetActive(false); });
+        UiUtil.AddButtonClickEvent(CreateButtonOn, () => { CreateRoomBtn(); LoginPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0); LoginPopup.SetActive(false); });
         UiUtil.AddButtonClickEvent(UserInfoBtn, () => { if (!GameController.haveToken()) { ActiveLogin(1); } });
         UiUtil.AddButtonClickEvent(CancelCreateBtn, () => { CancelCreate(); });
 
         UiUtil.AddButtonClickEvent(testPopupBtn, () => { TestPopupOpen(); });
-        UiUtil.AddButtonClickEvent(testPopupCloseBtn, () => { testPopup.gameObject.SetActive(false); });
+        UiUtil.AddButtonClickEvent(testPopupCloseBtn, () => {
+            var seq = DOTween.Sequence();
+            seq.Append(testPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(()=>{testPopup.gameObject.SetActive(false); });
+            });
 
 
-        UiUtil.AddButtonClickEvent(apiPopupBtn, () => { apiPopupOnOff(true); });
-        UiUtil.AddButtonClickEvent(apiPopupCloseBtn, () => { apiPopupOnOff(false); });
+        UiUtil.AddButtonClickEvent(apiPopupBtn, () => {
+            apiPopupOnOff(true);
+            var seq = DOTween.Sequence();
+            seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack)).OnComplete(()=>{ });
+             });
+        UiUtil.AddButtonClickEvent(apiPopupCloseBtn, () => {
+            var seq = DOTween.Sequence();
+            seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(()=>{apiPopupOnOff(false); });
+
+             });
     }
 
     public void BackToTitle()
@@ -177,6 +199,11 @@ public class MainUIEvent : MonoBehaviour
         }
 
         LoginPopup.SetActive(true);
+
+        var seq = DOTween.Sequence();
+
+        seq.Append(LoginPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack));
+        seq.Play();
     }
 
     public async Task CreateRoomBtn()
@@ -199,7 +226,10 @@ public class MainUIEvent : MonoBehaviour
 
     public void CancelCreate()
     {
-        LoginPopup.SetActive(false);
+        var seq = DOTween.Sequence();
+        seq.Append(LoginPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(()=>{LoginPopup.gameObject.SetActive(false); });
+        //LoginPopup.SetActive(false);
+
     }
 
     private void ActiveUI(int type)
@@ -220,18 +250,28 @@ public class MainUIEvent : MonoBehaviour
     {
         if (isOn)
         {
-            userinfotxt.text = "Login okay";
+            userinfotxt.text = "";
+            //userinfotxt.text = "Login okay";
+            userinfotxt.transform.GetChild(0).gameObject.SetActive(true);
+            //userinfotxt.transform.parent.GetComponent<UnityEngine.UI.Image>().color = Color.yellow;
         }
         else
         {
-            userinfotxt.text = "Login needed";
+            userinfotxt.text = "";
+            userinfotxt.transform.GetChild(0).gameObject.SetActive(false);
+            //userinfotxt.text = "Login needed";
+            //userinfotxt.transform.parent.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         }
     }
 
 
     public void TestPopupOpen()
     {
+
         testPopup.gameObject.SetActive(true);
+        
+        var seq = DOTween.Sequence();
+        seq.Append(testPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack));
     }
 
     public void apiPopupOnOff(bool isOn)

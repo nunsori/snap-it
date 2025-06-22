@@ -19,10 +19,11 @@ public class CreateRoomPopup : MonoBehaviour
     [SerializeField]
     public Button btn2;
 
-    public static bool isPersonal = false;
+    public static bool isPersonal = true;
 
     void OnEnable()
     {
+        isPersonal = true;
         if (btn1 != null)
         {
             UiUtil.AddButtonClickEvent(btn1, () => { isPersonal = true; });

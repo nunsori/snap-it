@@ -269,6 +269,17 @@ public class WebSocketService : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        MainUIController.EnterRoomInvoke(1);
+        //UIController.Instance.countDown.InitCountDown();
+        SendMessage("/app/room/" + GameController.Instance.cur_uuid + "/leave", "{}");
+        Unsubscribe("/topic/room/" + GameController.Instance.cur_uuid);
+        GameController.Instance.cur_uuid = "";
+        GameController.Instance.cur_word = "";
+        GameController.Instance.cur_game_type = "";
+        GameController.Instance.cur_round = 0;
+        //SceneManager.UnloadSceneAsync("ArScene");
+        //camera.gameObject.SetActive(false);
+
         CloseSocket();
     }
 

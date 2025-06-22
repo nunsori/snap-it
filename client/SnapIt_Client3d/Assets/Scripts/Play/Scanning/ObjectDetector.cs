@@ -147,8 +147,8 @@ public class ObjectDetector : MonoBehaviour
 
                     GameObject tempObj = Instantiate(sampleObj, pointHis.point, Quaternion.identity, gameObject.transform);
 
-                    tempObj.transform.localScale = new Vector3(realWidth, realHeight, tempObj.transform.localScale.z);
-
+                    //tempObj.transform.localScale = new Vector3(Mathf.Max(realHeight,realWidth) realWidth, realHeight, tempObj.transform.localScale.z);
+                    tempObj.transform.localScale = new Vector3(Mathf.Max(realHeight,realWidth), Mathf.Max(realHeight,realWidth), Mathf.Max(realHeight,realWidth));
 
                     objectArr.Add(tempObj);
                     tempObj.GetComponent<LookAtCamera>().Init(GApiController.resarr[i].name, arCamera, CheckRectSize(i));

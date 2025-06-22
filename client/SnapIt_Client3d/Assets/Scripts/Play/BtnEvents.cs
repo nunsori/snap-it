@@ -49,6 +49,7 @@ public class BtnEvents : MonoBehaviour
     public void QuitPlayScene()
     {
         MainUIController.EnterRoomInvoke(1);
+        UIController.Instance.countDown.InitCountDown();
         WebSocketService.Instance.SendMessage("/app/room/" + GameController.Instance.cur_uuid + "/leave", "{}");
         WebSocketService.Instance.Unsubscribe("/topic/room/" + GameController.Instance.cur_uuid);
         GameController.Instance.cur_uuid = "";

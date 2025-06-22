@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,12 +37,17 @@ public class ResultPopup : MonoBehaviour
         UiUtil.AddButtonClickEvent(ContinueBtn, () => { ContinueBtnEvent(); });
         UiUtil.AddButtonClickEvent(ExitBtn, () => { ExitBtnEvent(); });
 
+        PopupObject.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0);
+
         DisablePopup();
     }
 
     public void DisablePopup()
     {
-        PopupObject.SetActive(false);
+        
+        var seq = DOTween.Sequence();
+        seq.Append(PopupObject.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(()=>{PopupObject.gameObject.SetActive(false); });
+        //PopupObject.SetActive(false);
     }
 
     public void StartPopup(bool isEnd, string user, string Score, string UserScore, int round)
@@ -63,6 +69,9 @@ public class ResultPopup : MonoBehaviour
         // }
 
         ContinueBtn.gameObject.SetActive(!(GameController.Instance.MaxRound == round));
+
+        var seq = DOTween.Sequence();
+        seq.Append(PopupObject.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack)).OnComplete(()=>{ });
         // ExitBtn.gameObject.SetActive(GameController.Instance.MaxRound == round);
     }
 

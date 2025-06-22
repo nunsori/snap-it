@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class CountDown : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI countDownText;
+
+    [SerializeField]
+    private Slider slider;
+
+    [SerializeField]
+    private TextMeshProUGUI sliderText;
 
     private bool isCounting = false;
     private float time = 0f;
@@ -20,6 +27,7 @@ public class CountDown : MonoBehaviour
     void OnEnable()
     {
         UIController.CountDOwnEvent += StartCount;
+        slider.maxValue = countSecond;
     }
 
     public void InitCountDown()
@@ -46,6 +54,8 @@ public class CountDown : MonoBehaviour
 
     void Update()
     {
+        slider.value = countSecond - time;
+
         if (isCounting)
         {
             time += Time.deltaTime;
@@ -65,6 +75,13 @@ public class CountDown : MonoBehaviour
 
 
         }
+
+        
+    }
+
+    public void setSliderText()
+    {
+        sliderText.text = ((int)slider.value).ToString();
     }
 
     private void TimeOver()
