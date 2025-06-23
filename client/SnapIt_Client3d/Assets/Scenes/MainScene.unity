@@ -7347,7 +7347,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BGM_Clips: []
-  Effect_Clips: []
+  Effect_Clips:
+  - clip_name: snap
+    clip: {fileID: 8300000, guid: bfe9865ef61c44c0b81c3a8fffaf681b, type: 3}
+  - clip_name: gamestart
+    clip: {fileID: 8300000, guid: ad13720351bda49de939a2c1f1565e20, type: 3}
+  - clip_name: result
+    clip: {fileID: 8300000, guid: 710d61e29ab3347d28ec49710575f3ea, type: 3}
+  - clip_name: penclick
+    clip: {fileID: 8300000, guid: 1ccf4e828a61f4b8bb08da91d9968c80, type: 3}
+  - clip_name: objselect
+    clip: {fileID: 8300000, guid: fa30a9ad25e5d496cbfaa360cdab5f67, type: 3}
   BGM: {fileID: 249242099}
   Effects:
   - {fileID: 1360517919}

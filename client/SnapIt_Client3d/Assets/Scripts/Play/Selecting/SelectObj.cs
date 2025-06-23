@@ -49,7 +49,16 @@ public class SelectObj : MonoBehaviour
                 LookAtCamera hittemp = hit.collider.GetComponent<LookAtCamera>();
                 if (hittemp != null)
                 {
-                    WordList.Instance.AddWord(hittemp.havname);
+                    // WordList.Instance.AddWord(hittemp.havname);
+                    // Destroy(hittemp.gameObject);
+                    // break;
+                    string[] words = hittemp.havname.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (string word in words)
+                    {
+                        WordList.Instance.AddWord(word);
+                    }
+
                     Destroy(hittemp.gameObject);
                     break;
                 }
