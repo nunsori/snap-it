@@ -46,6 +46,9 @@ public class ARController : MonoBehaviour
 
     public void ScanFun(){
         if(!StateTester.checkState) return;
+
+        SoundController.Instance.Play_Effect("snap", SoundController.Instance.Effect_Volume, false);
+
         detector.StartCoroutine(detector.MeshRayCast());
     }
 

@@ -15,7 +15,7 @@ public class APiISettingPopup : MonoBehaviour
 
     void Start()
     {
-        UiUtil.AddButtonClickEvent(AdjustBtn, () => { applytoken(); });
+        UiUtil.AddButtonClickEvent(AdjustBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); applytoken(); });
 
         url_input.text = "https://vision.googleapis.com/v1/images:annotate?key=";
     }

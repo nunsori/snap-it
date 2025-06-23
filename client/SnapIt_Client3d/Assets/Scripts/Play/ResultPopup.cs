@@ -34,8 +34,8 @@ public class ResultPopup : MonoBehaviour
 
     public void Init()
     {
-        UiUtil.AddButtonClickEvent(ContinueBtn, () => { ContinueBtnEvent(); });
-        UiUtil.AddButtonClickEvent(ExitBtn, () => { ExitBtnEvent(); });
+        UiUtil.AddButtonClickEvent(ContinueBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); ContinueBtnEvent(); });
+        UiUtil.AddButtonClickEvent(ExitBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); ExitBtnEvent(); });
 
         PopupObject.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0);
 
@@ -53,6 +53,7 @@ public class ResultPopup : MonoBehaviour
     public void StartPopup(bool isEnd, string user, string Score, string UserScore, int round)
     {
         PopupObject.SetActive(true);
+        SoundController.Instance.Play_Effect("result", SoundController.Instance.Effect_Volume, false);
 
         titleText.text = (GameController.Instance.MaxRound == round) ? "게임 결과" : "라운드 결과";
 

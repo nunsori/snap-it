@@ -120,16 +120,17 @@ public class MainUIEvent : MonoBehaviour
         roomList.Init();
 
 
-        UiUtil.AddButtonClickEvent(singleTestBtn, () => { Testing(); });
-        UiUtil.AddButtonClickEvent(BackToTitleBtn, () => { BackToTitle(); });
-        UiUtil.AddButtonClickEvent(CreateButton, () => { createRoomOpen(); });
-        UiUtil.AddButtonClickEvent(CreateButtonOn, () => { CreateRoomBtn(); LoginPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0); LoginPopup.SetActive(false); });
-        UiUtil.AddButtonClickEvent(UserInfoBtn, () => { if (!GameController.haveToken()) { ActiveLogin(1); } });
-        UiUtil.AddButtonClickEvent(CancelCreateBtn, () => { CancelCreate(); });
+        UiUtil.AddButtonClickEvent(singleTestBtn, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); Testing(); });
+        UiUtil.AddButtonClickEvent(BackToTitleBtn, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); BackToTitle(); });
+        UiUtil.AddButtonClickEvent(CreateButton, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); createRoomOpen(); });
+        UiUtil.AddButtonClickEvent(CreateButtonOn, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); CreateRoomBtn(); LoginPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0); LoginPopup.SetActive(false); });
+        UiUtil.AddButtonClickEvent(UserInfoBtn, () => { /*if (!GameController.haveToken())*/ { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); ActiveLogin(1); } });
+        UiUtil.AddButtonClickEvent(CancelCreateBtn, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); CancelCreate(); });
 
-        UiUtil.AddButtonClickEvent(testPopupBtn, () => { TestPopupOpen(); });
+        UiUtil.AddButtonClickEvent(testPopupBtn, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); TestPopupOpen(); });
         UiUtil.AddButtonClickEvent(testPopupCloseBtn, () =>
         {
+            SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false);
             var seq = DOTween.Sequence();
             seq.Append(testPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(() => { testPopup.gameObject.SetActive(false); });
         });
@@ -137,18 +138,20 @@ public class MainUIEvent : MonoBehaviour
 
         UiUtil.AddButtonClickEvent(apiPopupBtn, () =>
         {
+            SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false);
             apiPopupOnOff(true);
             var seq = DOTween.Sequence();
             seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack)).OnComplete(() => { });
         });
         UiUtil.AddButtonClickEvent(apiPopupCloseBtn, () =>
         {
+            SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false);
             var seq = DOTween.Sequence();
             seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(() => { apiPopupOnOff(false); });
 
         });
 
-        UiUtil.AddButtonClickEvent(settingBtn, () => { settingPopup.PopupOnoff(true); });
+        UiUtil.AddButtonClickEvent(settingBtn, () => { SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); settingPopup.PopupOnoff(true); });
     }
 
     public void BackToTitle()

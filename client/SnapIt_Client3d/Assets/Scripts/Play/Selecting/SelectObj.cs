@@ -52,6 +52,7 @@ public class SelectObj : MonoBehaviour
                     // WordList.Instance.AddWord(hittemp.havname);
                     // Destroy(hittemp.gameObject);
                     // break;
+                    SoundController.Instance.Play_Effect("objselect", SoundController.Instance.Effect_Volume, false);
                     string[] words = hittemp.havname.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (string word in words)

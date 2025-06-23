@@ -350,7 +350,6 @@ MonoBehaviour:
   sampleObj: {fileID: 2746247491128843972, guid: c17d60d4e7715445da5ed25b39256842, type: 3}
   arCamera: {fileID: 1402716384}
   maxRayLength: 10
-  scaleFactor: 1
 --- !u!1 &211641490
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +386,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 173.99997, y: 89.999916}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &211641492
 MonoBehaviour:
@@ -423,7 +422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4572b1f096477f04e8510496f1924240, type: 2}
   m_sharedMaterial: {fileID: 4064318747746316596, guid: 4572b1f096477f04e8510496f1924240, type: 2}
@@ -1882,7 +1881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd00ae3de83f4a988733d4132485929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countSecond: 15
   countDownText: {fileID: 1455638934668213058}
   slider: {fileID: 613333995}
   sliderText: {fileID: 211641493}
@@ -1921,7 +1919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 14.999939, y: 4}
+  m_AnchoredPosition: {x: 15, y: 4}
   m_SizeDelta: {x: 134, y: 134}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &925805366
@@ -3172,7 +3170,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1402716378}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1402716384
 Camera:
   m_ObjectHideFlags: 0
@@ -4108,7 +4106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd00ae3de83f4a988733d4132485929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countSecond: 15
   countDownText: {fileID: 1719738463}
   slider: {fileID: 0}
   sliderText: {fileID: 0}

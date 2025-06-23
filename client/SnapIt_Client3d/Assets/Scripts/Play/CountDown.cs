@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
-    [SerializeField]
-    private float countSecond = 15f;
+    public static float countSecond = 15f;
 
     [SerializeField]
     private TextMeshProUGUI countDownText;
@@ -34,6 +33,7 @@ public class CountDown : MonoBehaviour
     {
         isCounting = false;
         time = 0f;
+        slider.maxValue = countSecond;
 
         countDownText.text = countSecond.ToString("F1");
     }
