@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 51cffde8f4e203044a0f44271f1f8816
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Runtime/STOMP/Subscription.cs
+  uploadId: 690815

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 01acac6be771a4245b66871423a1d2ac
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/CHANGELOG.md
+  uploadId: 690815

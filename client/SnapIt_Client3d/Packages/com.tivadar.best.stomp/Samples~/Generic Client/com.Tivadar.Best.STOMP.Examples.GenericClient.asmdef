@@ -1,0 +1,17 @@
+{
+    "name": "com.Tivadar.Best.STOMP.Examples.GenericClient",
+    "rootNamespace": "Best.STOMP.Examples",
+    "references": [
+        "GUID:9069ac25d95ca17448a247f3bb1c769f",
+        "GUID:ca31842cfb4239f4f9949914035b556a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

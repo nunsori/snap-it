@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c2fa5564f4630274cbcda83919b7c4d4
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Samples~/Generic Client/STOMP Generic
+    Client.unity
+  uploadId: 690815

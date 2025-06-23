@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4fa3fc469ca19a04aafbf9f46b6491c5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Samples~/Generic Client/SubscriptionListItem.cs
+  uploadId: 690815

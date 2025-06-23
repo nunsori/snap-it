@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ca31842cfb4239f4f9949914035b556a
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Runtime/com.Tivadar.Best.STOMP.asmdef
+  uploadId: 690815

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: f187521dfbca20a4d9fe21e2f11458df
+AssetOrigin:
+  serializedVersion: 1
+  productId: 271849
+  packageName: Best STOMP
+  packageVersion: 1.0.2
+  assetPath: Packages/com.tivadar.best.stomp/Runtime/STOMP/Transports/WebSocketTransport.cs
+  uploadId: 690815
