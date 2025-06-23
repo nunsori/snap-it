@@ -34,8 +34,8 @@ public class ObjectDetector : MonoBehaviour
     private float savedFOV, savedAspect, savedNear;
     private Vector2 savedScreenSize;
 
-    [SerializeField]
-    private float scaleFactor = 2f; 
+    
+    public static float scaleFactor = 2f; 
 
 
     public void Init()

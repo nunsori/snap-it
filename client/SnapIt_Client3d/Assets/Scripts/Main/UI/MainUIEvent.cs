@@ -67,6 +67,14 @@ public class MainUIEvent : MonoBehaviour
     [SerializeField]
     private Button apiPopupCloseBtn;
 
+    [Header("Setting Popup")]
+    [SerializeField]
+    private GameSettingPopup settingPopup;
+
+    [SerializeField]
+    private Button settingBtn;
+
+
 
     public void OnDisable()
     {
@@ -100,6 +108,7 @@ public class MainUIEvent : MonoBehaviour
         apiPopup.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2500, 0);
         apiPopup.gameObject.SetActive(false);
 
+        settingPopup.Init();
 
         LoginPopup.SetActive(false);
         if (GameController.haveToken())
@@ -119,22 +128,27 @@ public class MainUIEvent : MonoBehaviour
         UiUtil.AddButtonClickEvent(CancelCreateBtn, () => { CancelCreate(); });
 
         UiUtil.AddButtonClickEvent(testPopupBtn, () => { TestPopupOpen(); });
-        UiUtil.AddButtonClickEvent(testPopupCloseBtn, () => {
+        UiUtil.AddButtonClickEvent(testPopupCloseBtn, () =>
+        {
             var seq = DOTween.Sequence();
-            seq.Append(testPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(()=>{testPopup.gameObject.SetActive(false); });
-            });
+            seq.Append(testPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(() => { testPopup.gameObject.SetActive(false); });
+        });
 
 
-        UiUtil.AddButtonClickEvent(apiPopupBtn, () => {
+        UiUtil.AddButtonClickEvent(apiPopupBtn, () =>
+        {
             apiPopupOnOff(true);
             var seq = DOTween.Sequence();
-            seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack)).OnComplete(()=>{ });
-             });
-        UiUtil.AddButtonClickEvent(apiPopupCloseBtn, () => {
+            seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(0, 0.5f).SetEase(Ease.OutBack)).OnComplete(() => { });
+        });
+        UiUtil.AddButtonClickEvent(apiPopupCloseBtn, () =>
+        {
             var seq = DOTween.Sequence();
-            seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(()=>{apiPopupOnOff(false); });
+            seq.Append(apiPopup.transform.GetChild(1).GetComponent<RectTransform>().DOAnchorPosY(-2500, 0.5f).SetEase(Ease.InBack)).OnComplete(() => { apiPopupOnOff(false); });
 
-             });
+        });
+
+        UiUtil.AddButtonClickEvent(settingBtn, () => { settingPopup.PopupOnoff(true); });
     }
 
     public void BackToTitle()
