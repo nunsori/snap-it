@@ -61,7 +61,7 @@ public class GeminiApiIntegrationTest {
         List<Map<String, Object>> parts = new ArrayList<>();
         Map<String, Object> part = new HashMap<>();
         
-        part.put("text", "{\"placeList\":[\"카페\",\"도서관\",\"강의실\",\"학생회관\",\"공원\",\"영화관\"]}");
+        part.put("text", "{\"placeList\":[\"카페-cafe\",\"도서관-library\",\"강의실-classroom\",\"학생회관-student's union\",\"공원-park\",\"영화관-theater\"]}");
         parts.add(part);
         content.put("parts", parts);
         candidate.put("content", content);
@@ -80,10 +80,10 @@ public class GeminiApiIntegrationTest {
         
         String placeListPrompt = "10~20대가 접근하기 쉬운 공간(현실에 존재하는 공간)을 6개 랜덤하게 선택해서, 아래 예시와 같은 json형식으로 반환해줘." +
                 " 이때, 공간은 단순히 공간명을 의미해. 공간은 특정성(스타벅스, 맥도날드)를 띄지 말고, 추상적으로 표현(카페, 음식점) 해줘. " +
-                "학교, 대학교 안에 존재하는 공간을 2개 이상 포함해줘.\n" +
+                "학교, 대학교 안에 존재하는 공간을 2개 이상 포함해줘.답변은 한글단어-영어단어 쌍인 예시와 같은 형식으로 보내줘.\n" +
                 "예시:\n" +
                 "{\n" +
-                "  \"placeList\": [\"카페\",\"마트\",\"영화관\",\"강의실\",\"거리\",\"도서관\"]\n" +
+                "  \"placeList\": [\"카페-cafe\",\"마트-market\",\"영화관-theater\",\"강의실-classroom\",\"거리-street\",\"도서관-library\"]\n" +
                 "}";
 
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=" + apiKey;
@@ -288,10 +288,10 @@ public class GeminiApiIntegrationTest {
 
         String placeListPrompt = "10~20대가 접근하기 쉬운 공간(현실에 존재하는 공간)을 6개 랜덤하게 선택해서, 아래 예시와 같은 json형식으로 반환해줘." +
                 " 이때, 공간은 단순히 공간명을 의미해. 공간은 특정성(스타벅스, 맥도날드)를 띄지 말고, 추상적으로 표현(카페, 음식점) 해줘. " +
-                "학교, 대학교 안에 존재하는 공간을 2개 이상 포함해줘.\n" +
+                "학교, 대학교 안에 존재하는 공간을 2개 이상 포함해줘. 답변은 한글단어-영어단어 쌍인 예시와 같은 형식으로 보내줘.\n" +
                 "예시:\n" +
                 "{\n" +
-                "  \"placeList\": [\"카페\",\"마트\",\"영화관\",\"강의실\",\"거리\",\"도서관\"]\n" +
+                "  \"placeList\": [\"카페-cafe\",\"마트-market\",\"영화관-theater\",\"강의실-classroom\",\"거리-street\",\"도서관-library\"]\n" +
                 "}";
 
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=" + apiKey;
@@ -382,8 +382,8 @@ public class GeminiApiIntegrationTest {
         // 이 테스트는 실제 API를 호출하므로 API 키가 유효한 경우에만 실행합니다.
         org.junit.jupiter.api.Assumptions.assumeTrue(!apiKey.equals("TEST_GEMINI_API_KEY"), "실제 API 키가 필요합니다");
 
-        String stuffListPrompt = "대학교 강의실에 있을법한 물건 10개를 랜덤하게 골라서\n" +
-                "key는 stuffList, value는 물건 이름  String 배열로 JSON형식으로 답해줘";
+        String stuffListPrompt ="대학교 강의실에 있을법한 물건 10개를 랜덤하게 골라서\n" +
+                "key는 stuffList, value는 물건 이름 한글-영어를 하나의 String으로  배열로 JSON형식으로 답해줘";
 
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=" + apiKey;
         // 1) 스키마 정의 (stuffList)

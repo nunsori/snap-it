@@ -27,14 +27,15 @@ public class RoomService {
     // 방 생성하기
     @Transactional
     public RoomListMessage createRoom(RoomCommand cmd,String email) {
+        System.out.println("[방 생성]이메일, UUID 값 : " + email + ", " + cmd.roomUUID());
         Room room = new Room(
                 cmd.roomUUID(),
                 cmd.title(),
                 cmd.maxCapacity(),
                 cmd.gameType()
         );
-        room.getUserList().add(email); // 방 생성한 유저를 해당 방 멤버로 저장
         rooms.put(cmd.roomUUID(), room);
+        System.out.println("[방 생성]이메일, UUID 값 : " + email + ", " + cmd.roomUUID() + " 방 생성 완료");
 
         return getAllRoomListMessage();
     }
@@ -43,17 +44,21 @@ public class RoomService {
     @Transactional
     public JoinResult joinRoom(UUID roomUUID, String email) {
         AtomicReference<JoinResult> res = new AtomicReference<>(JoinResult.ROOM_NOT_FOUND);
-
+        System.out.println("[방 진입]이메일, UUID 값 : " + email + ", " + roomUUID);
         rooms.compute(roomUUID, (id, room) -> {
             if (room == null) {// 키가 애초에 없던 경우
+                System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방이 없습니다.");
                 return null;
             }
-            if (room.isFull()) {// 꽉 찬 경우
+            if (room.isFull()) {// 꽉 찬 경우  
+                System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방이 꽉 찼습니다.");
                 res.set(JoinResult.FULL_CAPACITY);
                 return room;
             }
             room.upCurrentCapacity();// 정상 입장
+            System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방 인원 증가. 현재 인원 : " + room.getCurrentCapacity());
             room.getUserList().add(email);
+            System.out.println("[방 진입]UUID 값 : " + roomUUID + " 방 인원 증가. 현재 인원 : " + room.getCurrentCapacity());
             res.set(JoinResult.SUCCESS);
             return room;
         });
@@ -69,7 +74,7 @@ public class RoomService {
             if (room == null) {
                 return null;
             }
-            if (room.getCurrentCapacity() == 1) {
+            if (room.getCurrentCapacity() <= 1) {
                 return null; // 방 삭제
             }
             // 그 외 경우엔 그대로 유지 또는 수정
@@ -83,6 +88,12 @@ public class RoomService {
     @Transactional
     public Room gameStartandDeleteRoom(UUID roomUUID) {
         return rooms.remove(roomUUID);
+    }
+
+    // UUID로 Room 찾아서 반환
+    @Transactional
+    public Room getRoom(UUID roomUUID) {
+        return rooms.get(roomUUID);
     }
 
     private RoomListMessage getAllRoomListMessage() {

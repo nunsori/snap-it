@@ -7,7 +7,22 @@ on:
   pull_request:
     branches:
       - server
-
+  workflow_dispatch:  # 수동 실행 옵션 추가
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: false
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      custom_tag:
+        description: 'Custom image tag (optional)'
+        required: false
+        type: string
+        
 jobs:
   build-and-push:
     runs-on: ubuntu-latest

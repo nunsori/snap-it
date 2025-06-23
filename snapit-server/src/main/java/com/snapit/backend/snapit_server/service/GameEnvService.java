@@ -3,6 +3,7 @@ package com.snapit.backend.snapit_server.service;
 import com.snapit.backend.snapit_server.domain.Room;
 import com.snapit.backend.snapit_server.domain.enums.GameType;
 import com.snapit.backend.snapit_server.dto.game.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class GameEnvService {
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -22,11 +24,6 @@ public class GameEnvService {
 
     private final Map<UUID, CopyOnWriteArrayList<String>> votes = new ConcurrentHashMap<>();
     private final Map<UUID, Room> roomInfo = new ConcurrentHashMap<>();
-
-    public GameEnvService(SimpMessagingTemplate messagingTemplate, GeminiService geminiService) {
-        this.messagingTemplate = messagingTemplate;
-        this.geminiService = geminiService;
-    }
 
     // 게임 시작
     public void gameInitiate(UUID roomUUID, Room room) {
@@ -47,16 +44,31 @@ public class GameEnvService {
 
     // UUID 기반 투표 + 결과 전송/협동전도 한번에 처리
     public void voteWithUUID(UUID roomUUID, VoteMessage voteMessage) {
+        System.out.println("[IF문 전]");
         String place = voteMessage.place();
         int round = voteMessage.round();
         GameType gameType = voteMessage.gameType();
 
+        System.out.println("roomUUID = " + roomUUID);
         votes.computeIfAbsent(roomUUID, k -> new CopyOnWriteArrayList<>()).add(place);
+        System.out.println("현재 투표 인원 = " + votes.get(roomUUID).size());
+        System.out.println("최대 투표 인원 = " + roomInfo.get(roomUUID).getCurrentCapacity());
+        System.out.println("게임 타입 = " + gameType);
+        System.out.println("라운드 = " + round);
+
         if (GameType.PERSONAL.equals(gameType)) {
 
             if (round == 1 && votes.get(roomUUID).size() == roomInfo.get(roomUUID).getCurrentCapacity()) {
+                System.out.println("[IF문 후]");
                 String mostVoted = calculateVoteResultAndSend(roomUUID, round);
+                System.out.println("최다 투표 장소 = " + mostVoted);
                 sendVoteResult(roomUUID, round, mostVoted);
+
+                System.out.println("현재 투표 인원 = " + votes.get(roomUUID).size());
+                System.out.println("최대 투표 인원 = " + roomInfo.get(roomUUID).getCurrentCapacity());
+                System.out.println("게임 타입 = " + gameType);
+                System.out.println("라운드 = " + round);
+
             } else if (round == 2) {
                 String mostVoted = calculateVoteResultAndSend(roomUUID, round);
                 sendVoteResult(roomUUID, round, mostVoted);

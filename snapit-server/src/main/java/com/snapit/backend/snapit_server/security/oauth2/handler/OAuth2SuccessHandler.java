@@ -10,6 +10,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -28,16 +30,12 @@ import java.time.Duration;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
-    private final OAuth2UserService oauth2UserService;
     private final TokenRepository tokenRepository;
 
-    //    public OAuth2SuccessHandler(JwtProvider jwtProvider, UserRepository userRepository) {
-    //        this.jwtProvider = jwtProvider;
-    //        this.userRepository = userRepository;
-    //    }
-    public OAuth2SuccessHandler(JwtProvider jwtProvider, OAuth2UserService oauth2UserService, TokenRepository tokenRepository) {
+
+
+    public OAuth2SuccessHandler(JwtProvider jwtProvider,  TokenRepository tokenRepository) {
         this.jwtProvider = jwtProvider;
-        this.oauth2UserService = oauth2UserService;
         this.tokenRepository = tokenRepository;
     }
 
@@ -73,7 +71,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
                 .httpOnly(false)
                 .path("/")
-                .maxAge(60 * 60) // 1시간
+                .maxAge(60 * 60 * 24 * 30) // 30일
                 .sameSite("Strict")
                 .build();
 
@@ -81,15 +79,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(false)
                 .path("/api/token/refresh") // Refresh 엔드포인트에서만 사용 가능
-                .maxAge(60 * 60 * 24 * 7) // 7일
+                .maxAge(60 * 60 * 24 * 30) // 30일
                 .sameSite("Strict")
                 .build();
         // [쿠키] 이메일도 넣게끔 설정
         ResponseCookie emailCookie = ResponseCookie.from("email", email)
                 .httpOnly(false) // JS에서 접근 가능하게 하려면 false
-                .secure(true)
                 .path("/")
-                .maxAge(Duration.ofDays(14))
+                .maxAge(Duration.ofDays(30))
                 .build();
         // [쿠키] 응답에 담기
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
