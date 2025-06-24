@@ -133,7 +133,7 @@ public class UIController : MonoBehaviour
             GameData data = new GameData
             {
                 round = GameController.Instance.cur_round,
-                score = 100,
+                score = 0,
                 gameType = GameController.Instance.cur_game_type,
                 stuff = "diohfoiwe(필요없는부분)"
             };

@@ -32,8 +32,8 @@ public class TitleBtnEvents : MonoBehaviour
         
 
 
-        UiUtil.AddButtonClickEvent(EnterBtn, () => { EnterMain(); });
-        UiUtil.AddButtonClickEvent(QuitBtn, () => { ExitApp(); });
+        UiUtil.AddButtonClickEvent(EnterBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); EnterMain(); });
+        UiUtil.AddButtonClickEvent(QuitBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); ExitApp(); });
     }
 
 

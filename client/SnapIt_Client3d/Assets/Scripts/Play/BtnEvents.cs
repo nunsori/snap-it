@@ -36,8 +36,8 @@ public class BtnEvents : MonoBehaviour
 
         GameStartBtn.gameObject.SetActive(true);
 
-        UiUtil.AddButtonClickEvent(QuitBtn, () => { QuitPlayScene(); });
-        UiUtil.AddButtonClickEvent(GameStartBtn, () => { GameStart(); });
+        UiUtil.AddButtonClickEvent(QuitBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); QuitPlayScene(); });
+        UiUtil.AddButtonClickEvent(GameStartBtn, () => {SoundController.Instance.Play_Effect("gamestart", SoundController.Instance.Effect_Volume, false); GameStart(); });
     }
 
 

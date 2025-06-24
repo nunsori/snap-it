@@ -16,7 +16,7 @@ public class TestPopup : MonoBehaviour
 
     void Start()
     {
-        UiUtil.AddButtonClickEvent(AdjustBtn, () => { applytoken(); });
+        UiUtil.AddButtonClickEvent(AdjustBtn, () => {SoundController.Instance.Play_Effect("click", SoundController.Instance.Effect_Volume, false); applytoken(); });
     }
 
     public void applytoken()
