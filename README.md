@@ -54,7 +54,14 @@
         <img src="https://avatars.githubusercontent.com/nunsori" width="100px;" alt="yejin"/><br />
         <sub><b>이수민</b></sub>
       </a><br />
-      <small>디자인/클라이언트</small>
+      <small>클라이언트</small>
+    </td>
+    <td align="center">
+      <a href="https://github.com/nanadayy">
+        <img src="https://avatars.githubusercontent.com/nanadayy" width="100px;" alt="yejin"/><br />
+        <sub><b>김민지</b></sub>
+      </a><br />
+      <small>디자인</small>
     </td>
   </tr>
 </table>
