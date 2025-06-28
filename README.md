@@ -1,7 +1,7 @@
 # Snap It 📸🎮
 
-> **위치 기반 협동 영어 학습 게임**  
-> GPS와 AR 기술을 활용한 혁신적인 야외 교육 콘텐츠
+> **AR 기반 협동 영어 학습 게임**  
+> AR 기술을 활용한 혁신적인 야외 교육 콘텐츠
 
 [![Unity](https://img.shields.io/badge/Unity-6000.0.41f-black?style=flat-square&logo=unity)](https://unity.com/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-brightgreen?style=flat-square&logo=spring)](https://spring.io/projects/spring-boot)
